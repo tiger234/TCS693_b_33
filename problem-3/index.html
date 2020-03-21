@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem-3 </title>
+    <style>
+        *{
+            font-family: helvetica,sans-serif;
+        }
+        .name{
+            position: absolute;
+            bottom:0px;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+function start(){
+fetch('./post.json')
+  .then(response => response.json())
+  .then(data => check(data))
+}
+function check(data){
+
+ var key=document.getElementById("key").value;
+ if(!key)
+ {
+    alert("Please enter a string then try again");
+     return;
+ }
+ var title,result="";
+ key=RegExp(key,'g');
+// RegExp returns a regular expression and g tells the function to not stop after find one occurence of the key(substring to be searched)
+  for(i=0;i<data.length;i++)
+  {   
+      title=data[i]['title'].concat(" " + data[i]['body']);
+      var val = (title.match(key) || [] ).length ;
+      if(val!=0)
+      {
+        val= data[i]['userId'] + " " + data[i]['id'] + " " + val;
+        result+= val + "<br>";
+      }
+  }
+  document.getElementById("output").innerHTML= "<br>" + result;
+}
+</script>
+</body>
+
+<input type="text" id="key"><br>
+<button type="button" onclick="start()" style="margin:10px 0;">Submit</button>
+<div id="output">
+<!-- Output comes here -->
+<h4 class="name">
+    Submitted by Nav Jindal (B-33)
+    </h4>
+</div>
+
+</html>
