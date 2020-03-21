@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem-4</title>
+    <style>
+      *{
+        font-family:helvetica,sans-serif;
+      }
+      h4{
+        position:absolute;
+        right:10px;
+        top:5px;  
+      }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+      fetch('./parse.json').then(function (response){
+          return response.json();
+      }).then(function (data){
+        printp(data)
+      });
+
+      var val="";
+      
+      function printp(data){
+       var record = data['body']['Recommendations']; 
+       record.forEach(obj => {
+         val+= "<br>" + obj.RestaurantName + "<br>";
+        obj['menu'].forEach(menu => {
+           
+            if(menu['type']=="sectionheader")
+            val+= "-->" + menu.name + "<br>";
+            menu['children'].forEach(child => {
+              var tmp="-----";
+
+              if(child['type']=='item' && child['selected']==1)
+             { val+=tmp + ">" + child['name'] + "<br>";
+              children(child['children'],tmp);}
+              return;
+            });
+            return;
+        });
+        return;
+      });
+
+      function children(menu,tmp){
+       menu.forEach(child => {
+          if(child['selected']==1)
+          {tmp+=tmp;
+            val+= tmp + ">" + child['name'] + "<br>"; 
+           return children(child['children'],tmp);
+           }
+           else if( child['selected']==0 ){
+          return;
+        }
+        });
+      }
+
+       document.getElementById("output").innerHTML=val;
+      }
+      
+    </script>
+<div id="output">
+<!-- Output comes here -->
+</div>
+<h4> Submitted by Nav Jindal (B-33) </h4>
+</body>
+</html>
