@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem-5</title>
+
+    <style>
+      html {
+        font-family: Helvetica,sans-serif;
+      }
+      
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+     
+      .wrong,.right{
+        color: #fff;
+        padding:10px;
+        font-weight:600;
+      }
+
+     .wrong{
+        background-color: #f51313;
+     }
+
+     .right{
+        background-color: #29c231;
+     }
+    </style>
+  </head>
+
+  <body onload="newgame()">
+    <h1>Number guessing game</h1>
+
+    <p>We have selected a random number between 1 and 100(1 and 100 included). See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
+
+    <div class="form">
+      <label for="guessField">Enter a guess: </label><input type="text" inputmode="numeric" pattern="[0-9]*" id="guessfield" class="guessfield" >
+      <input type="submit" value="Submit guess" class="guessSubmit" id="guessSubmit" onclick="guess()">
+    </div>
+
+    <div id="resultParas">
+        <p>Previous Guesses:<span id="guesses"></span></p>
+      <p id="lastResult"></p>
+      <p id="lowOrhi"></p>
+    </div>
+
+    <script>
+      var num, record=" ",guesscount=1;
+      function newgame(){  
+      var submit=document.getElementById("guessSubmit"), resultParas=document.getElementById("resultParas");
+      num = Math.floor(Math.random() * 100 + 1);
+      resultParas.innerHTML = "<p>Previous Guesses:<span id='guesses'></span></p> <p id='lastResult'></p><p id='lowOrhi'></p>";
+      submit.disabled = false; 
+      record = [];
+      guesscount = 1;
+       }
+
+      function guess(){
+          var submit=document.getElementById("guessSubmit"), lastResult = document.getElementById("lastResult")
+          ,loworhi=document.getElementById("lowOrhi");
+          
+          var val= document.getElementById("guessfield").value;
+          if(!val)
+          {
+              alert("Enter a number");
+              return;
+          }
+          record+=val + " ";
+          
+          document.getElementById("guesses").innerHTML = record;
+         
+         
+          if(num==val)
+          {
+            lastResult.classList.remove("wrong");
+            lastResult.classList.add("right");
+            lastResult.innerHTML = "Congratulations! You got it right.";
+            loworhi.innerHTML = "<button type='button' id='newgame' onclick='newgame()'>Start New Game</button>";
+            submit.disabled = true;
+            return;
+          }
+          lastResult.classList.add("wrong");
+          lastResult.innerHTML = "Wrong !";
+          if(guesscount>9)
+          {
+              submit.disabled = true;
+              loworhi.innerHTML = "<button type='button' id='newgame' onclick='newgame()'>Start New Game</button>";
+              return;
+            }
+          guesscount++;
+          if(val>num)
+          {     
+            
+              loworhi.innerHTML="Last result was too high";
+              return;
+          }
+          else
+          {  
+            
+            loworhi.innerHTML="Last result was too low";
+            return;
+          }
+      }
+
+    </script>
+  </body>
+</html>
