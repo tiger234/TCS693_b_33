@@ -1,2 +1,3 @@
 # TCS693_b_33
-this is my holi assignment 
+Please use start Apache(most important) and mysql before seeing my assignments as they only work in local server enviroment
+
